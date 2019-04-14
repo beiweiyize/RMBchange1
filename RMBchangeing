@@ -1,0 +1,68 @@
+import java.util.Scanner;
+public class RMBchange 
+{
+private static String digital="零壹贰叁肆伍陆柒捌玖";
+private static String unit="元拾佰仟万拾佰仟亿";
+public static String RMBchange1(String  m)//判断小数部分
+{   
+	String m1=m;
+	String moneyint="";
+	if(m1.equals("00"))            //字符串比较相等需要使用equals函数方法
+	{
+		moneyint+=("整");
+	}
+	else if(!m1.equals("00"))
+	{
+		int b=Integer.valueOf(m1.substring(0, 1)).intValue();//b表示小数第一位
+		int c=Integer.valueOf(m1.substring(1)).intValue();//c表示小鼠第二位
+		if(b==0&&c!=0)
+		{
+			moneyint+=("零"+digital.substring(c, c+1)+"分");
+		}
+		else if(b!=0&&c==0)
+		{
+			moneyint+=(digital.substring(b, b+1)+"角");
+		}
+		else
+		{
+			moneyint+=(digital.substring(b, b+1)+"角"+digital.substring(c, c+1)+"分");
+		}
+	}
+
+     return moneyint;
+}
+public static String RMBchange2(String  m) //判断整数部分
+{
+	String moneyint="";
+	String m1=m;//m1表示整数部分
+	int l=m1.length();
+	for(int i=0;i<l;i++)//在循环中逐位进行赋值
+	{
+		int x=Integer.valueOf(m1.charAt(i))-48;//x表示每一位返回的值
+	    moneyint+=(digital.substring(x, x+1)+unit.substring(l-i-1, l-i));//找到对应位置即可 完成该任务
+	}
+	
+	return moneyint;
+	
+}
+
+
+
+
+
+public static void main(String[] args) 
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("本系统只提供亿以下的货币单位换算:");
+		System.out.println("请输入需要转换的人民币:");
+		double money=sc.nextDouble();  //money表示输入的数值
+		int m=(int)(money*100);
+		String mz=String.valueOf(m);
+		String m1=mz.substring(mz.length()-2);//m1表示小数部分
+		String m2=mz.substring(0, mz.length()-2);//m2表示整数部分
+		System.out.println("转换为的人民币为:");
+		System.out.println(RMBchange2(m2)+RMBchange1(m1));
+		
+	}
+
+}
